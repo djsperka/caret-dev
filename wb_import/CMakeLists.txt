@@ -51,7 +51,6 @@ SET (CARET_LIBRARIES
    CaretGui
    CaretCommandOperations
    CaretBrainSet
-   CaretVtk4Classes
    CaretGifti
    CaretFiles
    CaretUniformize
@@ -86,7 +85,6 @@ IF (UNIX)
    IF (NOT APPLE) 
       TARGET_LINK_LIBRARIES(${EXE_NAME}
          ${OPENGL_LIBRARIES}
-         gobject-2.0
       )
    ENDIF (NOT APPLE)
 ENDIF (UNIX)

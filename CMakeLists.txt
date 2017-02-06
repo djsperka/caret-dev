@@ -80,7 +80,7 @@ if (CMAKE_COMPILER_IS_GNUCC)
     string(REGEX MATCHALL "[0-9]+" GCC_VERSION_COMPONENTS ${GCC_VERSION})
     list(GET GCC_VERSION_COMPONENTS 0 GCC_MAJOR)
     list(GET GCC_VERSION_COMPONENTS 1 GCC_MINOR)
-    message("gcc major minor version numbers are: "${GCC_MAJOR},${GCC_MINOR})
+    message("gcc major minor version numbers are: " ${GCC_MAJOR},${GCC_MINOR})
 endif()
 if (CMAKE_COMPILER_IS_GNUCC)
 if(${GCC_VERSION} VERSION_LESS "4.2")
@@ -278,20 +278,22 @@ ENDIF (OPENGL_FOUND)
 
 
 #=================================================================================
-SET (VTK_LIBRARIES
-            -L${VTK_LIBRARY_DIRS}
-            vtkFiltering 
-            vtkGenericFiltering 
-            vtkImaging 
-            vtkGraphics 
-            vtkIO 
-            vtkFiltering 
-            vtkCommon 
-            vtksys 
-            vtkjpeg 
-            vtkpng 
-            vtkexpat 
-            vtkzlib)
+# Do not set these on unix, as we have dropped vtk support. 
+# For windows build this may still be necessary. 
+#SET (VTK_LIBRARIES
+#            -L${VTK_LIBRARY_DIRS}
+#            vtkFiltering 
+#            vtkGenericFiltering 
+#            vtkImaging 
+#            vtkGraphics 
+#            vtkIO 
+#            vtkFiltering 
+#            vtkCommon 
+#            vtksys 
+#            vtkjpeg 
+#            vtkpng 
+#            vtkexpat 
+#            vtkzlib)
 
 #SET (VTK_LIBRARIES
 #            -lvtkFiltering 
@@ -312,7 +314,7 @@ SET (VTK_LIBRARIES
 # All subdirectories that will be configured for building
 #
 ADD_SUBDIRECTORY ( caret_common )
-ADD_SUBDIRECTORY ( caret_vtk4_classes )
+#ADD_SUBDIRECTORY ( caret_vtk4_classes )
 ADD_SUBDIRECTORY ( caret_uniformize )
 ADD_SUBDIRECTORY ( caret_gifti )
 ADD_SUBDIRECTORY ( caret_files )
