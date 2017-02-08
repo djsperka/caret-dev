@@ -8,6 +8,13 @@ PROJECT(Caret5)
 #
 set (EXE_NAME caret5)
 
+# 
+# On debian/ubuntu send the exe files to debian folder....
+#
+IF (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/caret5)
+ENDIF (UNIX)
+
 #
 #  QT Libraries
 #

@@ -8,6 +8,13 @@ PROJECT(CaretCommand)
 #
 set (EXE_NAME caret_command)
 
+# 
+# On debian/ubuntu send the exe files to debian folder....
+#
+IF (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/caret_command)
+ENDIF (UNIX)
+
 #
 #  QT Libraries
 #
@@ -141,3 +148,4 @@ IF (APPLE)
         COMMAND ${CMAKE_SOURCE_DIR}/CMakeScripts/run_macdeployqt.sh ${EXE_NAME}
     )
 ENDIF (APPLE)
+

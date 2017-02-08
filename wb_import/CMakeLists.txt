@@ -8,6 +8,13 @@ PROJECT(WbImport)
 #
 set (EXE_NAME wb_import)
 
+# 
+# On debian/ubuntu send the exe files to debian folder....
+#
+IF (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/wb_import)
+ENDIF (UNIX)
+
 #
 #  QT Libraries
 #

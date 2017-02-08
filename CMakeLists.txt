@@ -309,6 +309,15 @@ ENDIF (OPENGL_FOUND)
 #            -lvtkexpat 
 #            -lvtkzlib)
 
+
+#=================================================================================
+#
+# Dump executable files into debian dir
+
+#IF (UNIX)
+#	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/debian/caret/usr/lib/caret/bin)
+#ENDIF (UNIX)
+
 #=================================================================================
 #
 # All subdirectories that will be configured for building
