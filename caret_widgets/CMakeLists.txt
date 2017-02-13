@@ -54,6 +54,8 @@ ADD_LIBRARY(CaretWidgets
       WuQSeparatorLine.h 
       WuQWidgetGroup.h 
       WuQWizard.h
+      QtAngleSpinBox.h
+      QtCylinderGridFrame.h
 
       ${MOC_SOURCE_FILES}
 
@@ -75,6 +77,8 @@ ADD_LIBRARY(CaretWidgets
       WuQSeparatorLine.cxx 
       WuQWidgetGroup.cxx 
       WuQWizard.cxx 
+      QtAngleSpinBox.cxx
+      QtCylinderGridFrame.cxx
 )
 
 #
