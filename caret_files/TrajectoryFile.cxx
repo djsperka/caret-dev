@@ -45,6 +45,7 @@
 #include <QDataStream>
 #include <QTextStream>
 #include <QFile>
+#include <QtDebug>
 
 using namespace std;
 
@@ -608,7 +609,7 @@ void ElectrodeTrajectory::setVolumeNodesColor(const QColor& color)
 	m_colorVolumeNodes = color;
 };
 
-const double ElectrodeTrajectory::getCylinderID() const
+double ElectrodeTrajectory::getCylinderID() const
 {
 	return m_dCylinderID;
 };
@@ -618,7 +619,7 @@ void ElectrodeTrajectory::setCylinderID(double id)
 	m_dCylinderID = id;
 };
 
-const double ElectrodeTrajectory::getCylinderOD() const
+double ElectrodeTrajectory::getCylinderOD() const
 {
 	return m_dCylinderOD;
 };
@@ -628,7 +629,7 @@ void ElectrodeTrajectory::setCylinderOD(double od)
 	m_dCylinderOD = od;
 };
 
-const double ElectrodeTrajectory::getCylinderH() const
+double ElectrodeTrajectory::getCylinderH() const
 {
 	return m_dCylinderH;
 };
@@ -638,7 +639,7 @@ void ElectrodeTrajectory::setCylinderH(double h)
 	m_dCylinderH = h;
 };
 
-const double ElectrodeTrajectory::getMaxPenetrationDepth() const
+double ElectrodeTrajectory::getMaxPenetrationDepth() const
 {
 	return m_dMaxPenetrationDepth;
 }
@@ -648,13 +649,13 @@ void ElectrodeTrajectory::setMaxPenetrationDepth(double d)
 	m_dMaxPenetrationDepth = d;
 }
 
-const double ElectrodeTrajectory::getPenetrationDepth() const
+double ElectrodeTrajectory::getPenetrationDepth() const
 {
 	return (double)getDepthToolDepthPct()/100.0d * getMaxPenetrationDepth();
 }
 
 /// Get position of current penetration, as defined by depth and trajectory
-const void ElectrodeTrajectory::getPenetrationPosition(double dpt[3]) const
+void ElectrodeTrajectory::getPenetrationPosition(double dpt[3]) const
 {
 	double dEntry[3];
 	double xc[3], yc[3], zc[3];
@@ -697,7 +698,7 @@ void ElectrodeTrajectory::getGridEntryOffset(double *offset) const
 }
 
 
-const double ElectrodeTrajectory::getSkullNearbyD() const
+double ElectrodeTrajectory::getSkullNearbyD() const
 {
 	return m_dSkullNearbyD;
 };
@@ -713,7 +714,7 @@ void ElectrodeTrajectory::setGridRotation(double r)
 	m_dGridRotation = r;
 };
 
-const double ElectrodeTrajectory::getGridRotation() const
+double ElectrodeTrajectory::getGridRotation() const
 {
 	return m_dGridRotation;
 };
@@ -1043,6 +1044,7 @@ TrajectoryFile::readSkullFiles(const QString& sFileSkull, const QString& sFileBr
 			}
 			setAABBMin(aabbMin);
 			setAABBMax(aabbMax);
+			qDebug() << "Read " << m_dfsSkull.nvertices << " vertices from skull file " << sFileSkull;
 		}
 		catch (FileException& e) {
         	fileSkull.close();
@@ -1080,12 +1082,12 @@ TrajectoryFile::readSkullFiles(const QString& sFileSkull, const QString& sFileBr
          	throw e;
 		}
 
+		qDebug() << "Read " << m_dfsBrain.nvertices << " from brain surface file " << sFileBrain;
 		fileBrain.close();
 	}
 	else {
     	throw FileException(sFileBrain, "Failure trying to open: ");
 	}
-
 
 }
 
@@ -1187,6 +1189,8 @@ TrajectoryFile::readFileData(QFile& infile,
 	// Now read the trajectories
    readLine(stream, line);
    if (!line.isNull()) QTextStream(&line) >> iNumTrajectories;
+
+   qDebug() << "TrajectoryFile: will read n trajectories: " << iNumTrajectories;
 
    if (iNumTrajectories > 0)
    {
@@ -1325,123 +1329,10 @@ TrajectoryFile::readFileData(QFile& infile,
 	return;
 }
 
-
-#if 0
-bool TrajectoryFile::getHeaderBool(const std::string& name, bool& bval)
-{
-	bool b = false;
-	std::string sTemp = getHeaderTag(QString(name)).toStdString();
-	if (sTemp.length()>0)
-	{
-		istringstream iss(sTemp);
-		iss >> bval;
-		if (iss) b = true;
-	}
-	return b;
-}
-
-bool TrajectoryFile::getHeaderFloat(const std::string& name, float& fval)
-{
-	bool b = false;
-	std::string sTemp = getHeaderTag(name).toStdString();
-	if (sTemp.length()>0)
-	{
-		istringstream iss(sTemp);
-		iss >> fval;
-		if (iss) b = true;
-	}
-	return b;
-}
-
-bool TrajectoryFile::getHeaderInt(const std::string& name, int& ival)
-{
-	bool b=false;
-	string sTemp = getHeaderTag(name).toStdString();
-	if (sTemp.length()>0)
-	{
-		istringstream iss(sTemp);
-		iss >> ival;
-		if (iss) b=true;
-	}
-	return b;
-}
-
-bool TrajectoryFile::getHeaderXyz(const std::string& name, float xyz[3])
-{
-	bool b=false;
-	string sTemp = getHeaderTag(name).toStdString();
-	if (sTemp.length()>0)
-	{
-		istringstream iss(sTemp);
-		iss >> xyz[0] >> xyz[1] >> xyz[2];
-		if (iss) b=true;
-	}
-	return b;
-}
-
-bool TrajectoryFile::getHeaderColor(const std::string& name, QColor& color)
-{
-	bool b=false;
-	int red, green, blue;
-	string sTemp = getHeaderTag(name).toStdString();
-	if (sTemp.length()>0)
-	{
-		istringstream iss(sTemp);
-		iss >> red >> green >> blue;
-		if (iss)
-		{
-			b=true;
-			color.setRgb(red, green, blue);
-		}
-	}
-	return b;
-}
-
-void TrajectoryFile::setHeaderBool(const std::string& name, const bool& b)
-{
-	ostringstream out;
-	out << b;
-	setHeaderTag(name, out.str());
-}
-
-void TrajectoryFile::setHeaderFloat(const std::string& name, const float& f)
-{
-	ostringstream out;
-	out << f;
-	setHeaderTag(name, out.str());
-}
-
-void TrajectoryFile::setHeaderInt(const std::string& name, const int& i)
-{
-	ostringstream out;
-	out << i;
-	setHeaderTag(name, out.str());
-}
-
-void TrajectoryFile::setHeaderXyz(const std::string& name, const float xyz[3])
-{
-	ostringstream out;
-	out << xyz[0] << " " << xyz[1] << " " << xyz[2];
-	setHeaderTag(name, out.str());
-}
-
-void TrajectoryFile::setHeaderColor(const std::string& name, const QColor& color)
-{
-	ostringstream out;
-	int red, green, blue;
-	color.getRgb(&red, &green, &blue);
-	out << red << " " << green << " " << blue;
-	setHeaderTag(name, out.str());
-}
-#endif
-
-
 bool TrajectoryFile::empty() const
 {
 	return (getNumSkullVertices() == 0);
 }
-
-
 
 /// Get the color assigned to the brain surface
 const QColor& TrajectoryFile::getBrainSurfaceColor() const
@@ -1581,33 +1472,31 @@ void TrajectoryFile::setAABBMax(double p[3])
 	return;
 };
 
-#if 0
-void TrajectoryFile::getFace(int index, float **pfv1, float **pfv2, float **pfv3, float **pfn1, float **pfn2, float **pfn3) const
+void TrajectoryFile::getFace(int index, float *pfv1, float *pfv2, float *pfv3, float *pfn1, float *pfn2, float *pfn3) const
 {
 	int iface = index*3;
-	(*pfv1) = m_dfsSkull.vertices + m_dfsSkull.faces[iface]*3;
-	(*pfv2) = m_dfsSkull.vertices + m_dfsSkull.faces[iface+1]*3;
-	(*pfv3) = m_dfsSkull.vertices + m_dfsSkull.faces[iface+2]*3;
-	(*pfn1) = m_dfsSkull.vertexnormals + m_dfsSkull.faces[iface]*3;
-	(*pfn2) = m_dfsSkull.vertexnormals + m_dfsSkull.faces[iface+1]*3;
-	(*pfn3) = m_dfsSkull.vertexnormals + m_dfsSkull.faces[iface+2]*3;
+	int i;
+	for (i=0; i<3; i++)
+	{
+		pfv1[i] = m_dfsSkull.vertices[m_dfsSkull.faces[iface]*3 + i];
+		//(*pfv1) = m_dfsSkull.vertices + m_dfsSkull.faces[iface]*3;
+		pfv2[i] = m_dfsSkull.vertices[m_dfsSkull.faces[iface+1]*3 + i];
+		//(*pfv2) = m_dfsSkull.vertices + m_dfsSkull.faces[iface+1]*3;
+		pfv3[i] = m_dfsSkull.vertices[m_dfsSkull.faces[iface+2]*3 + i];
+		//(*pfv3) = m_dfsSkull.vertices + m_dfsSkull.faces[iface+2]*3;
+		pfn1[i] = m_dfsSkull.vertexnormals[m_dfsSkull.faces[iface]*3 + i];
+		//(*pfn1) = m_dfsSkull.vertexnormals + m_dfsSkull.faces[iface]*3;
+		pfn2[i] = m_dfsSkull.vertexnormals[m_dfsSkull.faces[iface+1]*3 + i];
+		//(*pfn2) = m_dfsSkull.vertexnormals + m_dfsSkull.faces[iface+1]*3;
+		pfn3[i] = m_dfsSkull.vertexnormals[m_dfsSkull.faces[iface+2]*3 + i];
+		//(*pfn3) = m_dfsSkull.vertexnormals + m_dfsSkull.faces[iface+2]*3;
+	}
 }
-#endif
 
 const std::multimap<int, int>& TrajectoryFile::getSkullFaceMap() const
 {
 	return m_dfsSkull.mapFaces;
 };
-
-
-
-
-
-
-
-
-
-
 
 bool TrajectoryFile::getSkullNearestPoint(double p[3], double fNearest[3])
 {
@@ -1621,18 +1510,15 @@ bool TrajectoryFile::getSkullNearestPoint(double p[3], double fNearest[3])
 		nnIdx = new ANNidx[1];						// allocate near neigh indices
 		dists = new ANNdist[1];						// allocate near neighbor dists
 		nnIdx[0]=0;
-
 		m_dfsSkull.tree->annkSearch(						// search
 				p,									// query point
 				1,									// number of near neighbors
 				nnIdx,							// nearest neighbors (returned)
 				dists							// distance (returned)
 				);
-
 		getSkullVertex(nnIdx[0], fNearest);
 		bValue = true;
 	}
-
 	return bValue;
 }
 
@@ -1727,8 +1613,8 @@ bool TrajectoryFile::createFiducialTree(const CoordinateFile *cf)
 			}
 			std::vector<float> vecFiducial;
 			cf->getAllCoordinates(vecFiducial);
-			for (unsigned int i=0; i<num; i++)
-				for (unsigned int j=0; j<3; j++)
+			for (int i=0; i<num; i++)
+				for (int j=0; j<3; j++)
 					m_paFiducial[i][j] = (double)vecFiducial[i*3+j];
 			m_kdtreeFiducial = new ANNkd_tree(m_paFiducial, num, 3);
 			if (NULL == m_kdtreeFiducial)
@@ -1758,7 +1644,6 @@ int TrajectoryFile::searchPath(ElectrodeTrajectoryP& ep)
 	double radius;
 	double fEntry[3];				// entry point on brain surface
 	double xc[3], yc[3], zc[3];
-	double fPathDistance;
 	double fSqSearchRadius;		// radius used for searching.
 	double fSqRadius;				// the path radius squared
 	int isteps;						// count index - # times search has been done
@@ -1797,7 +1682,7 @@ int TrajectoryFile::searchPath(ElectrodeTrajectoryP& ep)
 
 	// Get path unit vector.
 	for (i=0; i<3; i++) v[i] = end[i]-start[i];
-	fPathDistance = MathUtilities::normalize(v);
+	MathUtilities::normalize(v);
 
 	// Search loop
 	f=0;
@@ -1868,7 +1753,6 @@ void TrajectoryFile::getPointNearestPath(double start[3], double end[3], ANNkd_t
 	double p[3];
 	double fstepsize;
 	double fSqSearchRadius;		// radius used for searching.
-	double fSqRadius;				// the path radius squared
 	int isteps=0;						// count index - # times search has been done
 	double f=0;							// distance along path to search at.
 	int i;
@@ -1877,12 +1761,10 @@ void TrajectoryFile::getPointNearestPath(double start[3], double end[3], ANNkd_t
 	ANNdistArray distances;			// dynamically allocated array of distances
 	double fDpClosest = 0.0;
 	double fClosest = 999999.0;
-	int iClosest=-1;
 
 	// Search radius is twice the path radius
 	fstepsize = 3.4641016 * radius;		// that's 2 * sqrt(3) * radius
 	fSqSearchRadius = radius*radius*4;
-	fSqRadius = radius*radius;
 
 	// Get path distance and unit vector
 	for (i=0; i<3; i++) v[i] = end[i]-start[i];
@@ -1941,9 +1823,7 @@ void TrajectoryFile::getPointNearestPath(double start[3], double end[3], ANNkd_t
 				if (dist < fClosest)
 				{
 					fClosest = dist;	// we're saving the closest distance squared....
-					iClosest = indices[i];
 					fDpClosest = dp;
-//					std::cout << "Closest index=" << iClosest << " dist=" << fClosest << std::endl;
 				}
 			}
 
@@ -1979,6 +1859,7 @@ void TrajectoryFile::updateNearbySkullPoints(ElectrodeTrajectoryP& ep)
 	// fetch a set of skull points close to the cylinder center. We use the nearby diameter here - this will
 	// yield a superset of the points we really want.
 	ep->getCylinderCenter(xyzCenter);
+
 	nidx = findSkullNearbyPoints(xyzCenter, &idx, ep->getSkullNearbyD()/2);
 
 	// Find annulus of points which correspond
@@ -2063,8 +1944,8 @@ void TrajectoryFile::updateNearbySkullPoints(ElectrodeTrajectoryP& ep)
 		// the Multiply3x3 function is gone. Since this is the only place it gets used,
 		// just code a dumb step here. Ugh.
 		//MathUtilities::Multiply3x3(T, skp, skprime);
-		for (i=0; i<3; i++)
-			skprime[i] = T[i][0]*skp[0] + T[i][1]*skp[1] + T[i][2]*skp[2];
+		for (j=0; j<3; j++)
+			skprime[j] = T[j][0]*skp[0] + T[j][1]*skp[1] + T[j][2]*skp[2];
 
 
 		// Is this point within the annulus region
@@ -2095,8 +1976,6 @@ void TrajectoryFile::updateNearbySkullPoints(ElectrodeTrajectoryP& ep)
 			}
 		}
 	}
-
-
 
 	// Allocate a double array for the plane fit.
 	double *skullNearbyPoints;
@@ -2138,56 +2017,6 @@ void TrajectoryFile::updateNearbySkullPoints(ElectrodeTrajectoryP& ep)
 	ep->setCylinderBaseAngle(ang);
 
 	delete[] skullNearbyPoints;
-
-#ifdef STILL_USING_OLD_METHOD
-
-	for (j=0; j<3; j++) annulusAvg[j] = annulusSum[j]/nidxAnnulus;
-
-	// Form matrix for finding min volume ellipsoid.
-	// See http://public.kitware.com/pipermail/vtkusers/2004-March/072916.html
-	// Yeah, not much of a reference. Let's see if it works....
-	for (i=0; i<nidxAnnulus; i++)
-	{
-		getSkullVertex(idxAnnulus[i], sk);
-		for (j=0; j<3; j++) sk[j] = annulusAvg[j]-sk[j];
-		sxx += sk[0]*sk[0];
-		syy += sk[1]*sk[1];
-		szz += sk[2]*sk[2];
-		sxy += sk[0]*sk[1];
-		syz += sk[1]*sk[2];
-		sxz += sk[0]*sk[2];
-	}
-
-	float *mat[3], mat0[3], mat1[3], mat2[3];		// elements of inertia matrix
-	float evals[3];										// will hold eigenvalues
-	float *evecs[3], evec0[3],evec1[3],evec2[3];	// will hold eigenvectors
-	float normal[3];
-
-	//setup
-	mat[0] = mat0; mat[1] = mat1; mat[2] = mat2;
-	evecs[0] = evec0; evecs[1] = evec1; evecs[2] = evec2;
-	mat[0][0] = sxx; mat[0][1] = sxy; mat[0][2] = sxz;
-	mat[1][0] = sxy; mat[1][1] = syy; mat[1][2] = syz;
-	mat[2][0] = sxz; mat[2][1] = syz; mat[2][2] = szz;
-
-	// solve
-	MathUtilities::Jacobi(mat, evals, evecs);
-	normal[0] = evecs[0][2];
-	normal[1] = evecs[1][2];
-	normal[2] = evecs[2][2];
-
-	// Check that normal is in same direction, roughly, as trajectory
-	if (MathUtilities::dotProduct(normal, zprime) < 0)
-	{
-		for (i=0; i<3; i++) normal[i]*=-1;
-	}
-
-	float ang = acos(MathUtilities::dotProduct(zprime, normal)) * MathUtilities::RadiansToDegrees();
-
-	ep->setCylinderFitValues(annulusAvg, normal);
-	ep->setCylinderBaseAngle(ang);
-#endif
-
 
 	ep->setSkullNearbyIdx(idxNearby, nidxNearby);
 	ep->setSkullAnnulusIdx(idxAnnulus, nidxAnnulus);
@@ -2296,7 +2125,6 @@ void TrajectoryFile::targetPositionChanged(ElectrodeTrajectoryP& ep)
 	{
 		std::cerr << "getSkullNearestPoint failed!" << std::endl;
 	}
-
 }
 
 // update the cylinder center when trajectory angles change. The target point itself has

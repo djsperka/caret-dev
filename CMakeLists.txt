@@ -28,6 +28,12 @@ MESSAGE("   ")
 
 #=================================================================================
 #
+# Add folder for cmake modules
+#
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeScripts/")
+
+#=================================================================================
+#
 #
 #
 #message(INFORMATION "\nTo get the correct version of QT, qmake must be in the PATH\n")
@@ -276,6 +282,15 @@ ELSE (OPENGL_FOUND)
    MESSAGE(FATAL_ERROR "OpenGL Libraries were not found")
 ENDIF (OPENGL_FOUND)
 
+
+#=================================================================================
+#
+# Need libann - will fail on windows as I've written it. linux only now.
+#
+FIND_PACKAGE(LibANN REQUIRED)
+if (LIBANN_FOUND)
+	INCLUDE_DIRECTORIES(${LIBANN_INCLUDE_DIR})
+endif (LIBANN_FOUND)
 
 #=================================================================================
 # Do not set these on unix, as we have dropped vtk support. 

@@ -19,6 +19,7 @@ QtScriptInputDialog.h
 QtTableDialog.h
 QtTextEditDialog.h
 QtTextFileEditorDialog.h
+QtCylinderGridFrame.h
 WuQDataEntryDialog.h
 WuQDialog.h
 WuQFileDialog.h

@@ -282,7 +282,7 @@ class ElectrodeTrajectory
 	void setGridRotation(double r);
 
 	/// get rotation of grid w/r/to cylinder coords
-	const double getGridRotation() const;
+	double getGridRotation() const;
 
 	const QColor& getSkullSurfaceAnnulusColor() const;
 	void setSkullSurfaceAnnulusColor(const QColor& color);
@@ -308,29 +308,29 @@ class ElectrodeTrajectory
 	const QColor& getVolumeNodesColor() const;
 	void setVolumeNodesColor(const QColor& color);
 
-	const double getCylinderID() const;
+	double getCylinderID() const;
 	void setCylinderID(double id);
 
-	const double getCylinderOD() const;
+	double getCylinderOD() const;
 	void setCylinderOD(double od);
 
-	const double getCylinderH() const;
+	double getCylinderH() const;
 	void setCylinderH(double h);
 
-	const double getMaxPenetrationDepth() const;
+	double getMaxPenetrationDepth() const;
 	void setMaxPenetrationDepth(double d);
 
 	/// Get depth of penetration, as defined by the max penetration depth and the current slider value.
-	const double getPenetrationDepth() const;
+	double getPenetrationDepth() const;
 
 	/// Get position of current penetration, as defined by depth and trajectory
-	const void getPenetrationPosition(double dpt[3]) const;
+	void getPenetrationPosition(double dpt[3]) const;
 
 	/// Get offset vector for current grid position and rotation.
 	/// The returned vector is parallel to the plane of the grid.
 	void getGridEntryOffset(double *offset) const;
 
-	const double getSkullNearbyD() const;
+	double getSkullNearbyD() const;
 	void setSkullNearbyD(double d);
 
 
@@ -446,7 +446,9 @@ class TrajectoryFile : public AbstractFile
 	/// that name exists).
 	ElectrodeTrajectoryP removeTrajectory(const std::string name);
 
-//	void getFace(int index, float **pfv1, float **pfv2, float **pfv3, float **pfn1, float **pfn2, float **pfn3) const;
+	// pass existing arrays like float fv1[3] to this function.
+	// ugh, vertices stored as double but normals as float.
+	void getFace(int index, float *pfv1, float *pfv2, float *pfv3, float *pfn1, float *pfn2, float *pfn3) const;
 
 	const std::multimap<int, int>& getSkullFaceMap() const;
 

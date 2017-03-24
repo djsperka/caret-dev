@@ -420,7 +420,7 @@ initializeFileDialog()
    typeMap[SpecFile::getTextFileExtension()] = "Text";
    typeMap[SpecFile::getNeurolucidaFileExtension()] = "Neurolucida";
    typeMap[SpecFile::getCaretScriptFileExtension()] = "Caret Script";
-   
+   typeMap[SpecFile::getTrajectoryFileExtension()] = "Electrode trajectory";
    WuQFileDialog::setFileExtensionToTypeNameMap(typeMap);
 }
 

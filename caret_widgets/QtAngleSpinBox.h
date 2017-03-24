@@ -9,8 +9,13 @@ class QtAngleSpinBox : public QSpinBox
 	public:
 	QtAngleSpinBox(int minValue, int maxValue, int step = 1, QWidget * parent = 0, const char * name = 0);
 
-	QString mapValueToText( int value );
-	int mapTextToValue( bool *ok );
+	protected:
+
+	int valueFromText(const QString & text) const;
+	QString textFromValue(int value) const;
+
+//	QString mapValueToText( int value );
+//	int mapTextToValue( bool *ok );
 };
 
 

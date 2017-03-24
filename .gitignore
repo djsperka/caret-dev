@@ -48,3 +48,5 @@ ipch
 *.h~
 data_files
 *.kate-swp
+/obj-x86_64-linux-gnu/
+/.settings/

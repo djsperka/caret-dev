@@ -10,13 +10,14 @@ QtAngleSpinBox::QtAngleSpinBox(int minValue, int maxValue, int step, QWidget * p
 }
 
 
-QString QtAngleSpinBox::mapValueToText( int value )
+QString QtAngleSpinBox::textFromValue( int value ) const
 {
 	QString s;
 	return s.sprintf("%d.%03d", value/1000, std::abs(value)%1000);
 }
 
-int QtAngleSpinBox::mapTextToValue( bool *ok )
+int QtAngleSpinBox::valueFromText( const QString& text ) const
 {
-    return (int) ( 1000 * text().toFloat() );
+    return (int) ( 1000 * text.toFloat() );
 }
+
