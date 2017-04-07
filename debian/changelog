@@ -2,6 +2,7 @@ caret (5.6.6~dfsg.1-1.1) UNRELEASED; urgency=medium
 
   * Non-maintainer upload.
   * Clean up references to (unused) vtk4-dependent code. Fix bug in caret.install.
+  * Fix debian build so it works on Ubuntu xenial
 
  -- Daniel Sperka <djsperka@ucdavis.edu>  Mon, 06 Feb 2017 06:45:47 -0800
 
