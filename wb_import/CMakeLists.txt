@@ -8,6 +8,13 @@ PROJECT(WbImport)
 #
 set (EXE_NAME wb_import)
 
+# 
+# On debian/ubuntu send the exe files to debian folder....
+#
+IF (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/wb_import)
+ENDIF (UNIX)
+
 #
 #  QT Libraries
 #
@@ -51,7 +58,6 @@ SET (CARET_LIBRARIES
    CaretGui
    CaretCommandOperations
    CaretBrainSet
-   CaretVtk4Classes
    CaretGifti
    CaretFiles
    CaretUniformize
@@ -86,7 +92,6 @@ IF (UNIX)
    IF (NOT APPLE) 
       TARGET_LINK_LIBRARIES(${EXE_NAME}
          ${OPENGL_LIBRARIES}
-         gobject-2.0
       )
    ENDIF (NOT APPLE)
 ENDIF (UNIX)

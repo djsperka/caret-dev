@@ -123,7 +123,6 @@ unix:!ubuntu {
         ../caret_gui/libCaretGui.a \
         ../caret_command_operations/libCaretCommandOperations.a \
         ../caret_brain_set/libCaretBrainSet.a \
-        ../caret_vtk4_classes/libCaretVtk4Classes.a \
         ../caret_gifti/libCaretGifti.a \
         ../caret_files/libCaretFiles.a \
         ../caret_uniformize/libCaretUniformize.a \
@@ -138,7 +137,6 @@ unix:!ubuntu {
            ../caret_gui/libCaretGui.so \
            ../caret_command_operations/libCaretCommandOperations.so \
            ../caret_brain_set/libCaretBrainSet.so \
-           ../caret_vtk4_classes/libCaretVtk4Classes.so \
            ../caret_gifti/libCaretGifti.so \
            ../caret_files/libCaretFiles.so \
            ../caret_uniformize/libCaretUniformize.so \
@@ -237,7 +235,6 @@ unix:!macx:!ubuntu {
         -L../caret_gui -lCaretGui \
         -L../caret_command_operations -lCaretCommandOperations \
         -L../caret_brain_set -lCaretBrainSet \
-        -L../caret_vtk4_classes -lCaretVtk4Classes \
         -L../caret_gifti -lCaretGifti \
         -L../caret_files -lCaretFiles \
         -L../caret_uniformize -lCaretUniformize \

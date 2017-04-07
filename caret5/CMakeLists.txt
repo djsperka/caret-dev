@@ -8,6 +8,13 @@ PROJECT(Caret5)
 #
 set (EXE_NAME caret5)
 
+# 
+# On debian/ubuntu send the exe files to debian folder....
+#
+IF (UNIX)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/caret5)
+ENDIF (UNIX)
+
 #
 #  QT Libraries
 #
@@ -51,7 +58,7 @@ SET (CARET_LIBRARIES
    CaretGui
    CaretCommandOperations
    CaretBrainSet
-   CaretVtk4Classes
+#   CaretVtk4Classes
    CaretGifti
    CaretFiles
    CaretUniformize
@@ -87,7 +94,6 @@ IF (UNIX)
    IF (NOT APPLE) 
       TARGET_LINK_LIBRARIES(${EXE_NAME}
          ${OPENGL_LIBRARIES}
-         gobject-2.0
       )
    ENDIF (NOT APPLE)
 ENDIF (UNIX)
@@ -117,7 +123,6 @@ ${CMAKE_SOURCE_DIR}/caret_files
 ${CMAKE_SOURCE_DIR}/caret_gifti
 ${CMAKE_SOURCE_DIR}/caret_statistics
 ${CMAKE_SOURCE_DIR}/caret_uniformize
-${CMAKE_SOURCE_DIR}/caret_vtk4_classes
 ${CMAKE_SOURCE_DIR}/caret_widgets
 )
 
