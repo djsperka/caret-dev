@@ -27,6 +27,7 @@ public:
 signals:
 	void entryPointChanged(double x, double y);
 protected:
+	void paintEvent( QPaintEvent* event );
 	void drawContents( QPainter *p );
 	void mousePressEvent(QMouseEvent* e);
 	QSize sizeHint() const { return _size; };

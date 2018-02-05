@@ -2177,6 +2177,10 @@ GuiDataFileSaveDialog::slotLoadParametersForFileType()
    else if (filterName == FileFilters::getVtkVolumeFileFilter()) {
       exportSurfaceOptionsGroupBox->show();
    }
+   else if (filterName == FileFilters::getTrajectoryFileFilter())
+   {
+	   af = brainSet->getTrajectoryFile();
+   }
    else {
       std::cerr << "PROGRAM ERROR: unhandled file type " << filterName.toAscii().constData() 
                 << " at " << __LINE__

@@ -99,6 +99,21 @@ void QtCylinderGridFrame::drawEntryPoint(QPainter *p, int i, int j, double epsiz
 	p->drawEllipse(ix-iw, iy-iw, 2*iw, 2*iw);
 }
 
+
+// Qt3-Qt4 change. Use paintEvent instead of drawContents.
+// This trick from
+// http://www.qtcentre.org/threads/33437-Qt3To4-port-replacement-of-QLabel-drawContents-method
+
+void QtCylinderGridFrame::paintEvent( QPaintEvent* event )
+{
+	QFrame::paintEvent( event );
+
+	QPainter painter( this );
+
+	drawContents( &painter ); // ... additional drawing
+}
+
+
 void QtCylinderGridFrame::drawContents( QPainter *p )
 {
 	int i, j;

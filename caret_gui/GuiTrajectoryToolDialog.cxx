@@ -343,7 +343,7 @@ QWidget* GuiTrajectoryToolDialog::setupTab2()
 	m_spinboxDepthToolTolerance->setMaximum(100);
 	m_spinboxDepthToolTolerance->setSingleStep(0.1);
 	m_spinboxDepthToolTolerance->setDecimals(1);
-	QObject::connect(m_spinboxDepthToolTolerance, SIGNAL(floatValueChanged(double)), this, SLOT(slotDepthToolToleranceChanged(double)));
+	QObject::connect(m_spinboxDepthToolTolerance, SIGNAL(valueChanged(double)), this, SLOT(slotDepthToolToleranceChanged(double)));
 	row->addWidget(label);
 	row->addWidget(m_spinboxDepthToolTolerance);
 	groupLayout->addLayout(row);
@@ -359,6 +359,7 @@ QWidget* GuiTrajectoryToolDialog::setupTab2()
 	m_labelDepth = new QLabel("0");
 	row->addWidget(m_sliderDepthTool);
 	row->addWidget(label);
+	row->addWidget(m_labelDepth);
 	groupLayout->addLayout(row);
 
 	row = new QHBoxLayout;
@@ -582,6 +583,7 @@ void GuiTrajectoryToolDialog::slotActiveTrajectoryChanged(QListWidgetItem* curre
 	else
 	{
 		refreshTrajectory();
+		updateSelectedVolumeSlices();
 //		updateItems();
 		// re-draw surfaces
 		theMainWindow->getBrainModelOpenGL()->updateAllGL();
@@ -1240,7 +1242,7 @@ void GuiTrajectoryToolDialog::slotGridRotationChanged(int value)
 void GuiTrajectoryToolDialog::slotDepthToolToleranceChanged(double val)
 {
 	if (m_bSuppressUpdates) return;
-
+	qDebug() << "slotDepthToolToleranceChanged " << val;
 	TrajectoryFile* ptf = m_brainSet->getTrajectoryFile();
 	ElectrodeTrajectoryP ep = ptf->getActiveTrajectory();
 	if (!ep) return;
@@ -1251,6 +1253,7 @@ void GuiTrajectoryToolDialog::slotDepthToolToleranceChanged(double val)
 
 	// Mark the file modified
 	ptf->setModified();
+	qDebug() << "slotDepthToolToleranceChanged " << val << " - done.";
 }
 
 
@@ -1628,7 +1631,6 @@ void GuiTrajectoryToolDialog::enableWidgets()
 		}
 		else
 		{
-			qDebug() << "enableWidgets: active trajectory has target";
 			m_targetDisplayGroup->setEnabled(true);
 			m_targetNodeGroup->setEnabled(true);
 			m_trajectoryGroup->setEnabled(true);

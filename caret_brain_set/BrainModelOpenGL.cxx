@@ -9378,9 +9378,10 @@ void BrainModelOpenGL::drawVolumeElectrodeTrajectory(BrainModelVolume* bmv, cons
 
 			// If depth tool in use, check depth against penetration depth. If outside
 			// tolerance skip this node
+
 			if (ep->getUseDepthTool())
 			{
-				if (abs(dDepth - ep->getPenetrationDepth()) > ep->getDepthToolTolerance())
+				if (fabs(dDepth - ep->getPenetrationDepth()) > ep->getDepthToolTolerance())
 				{
 					continue;
 				}
