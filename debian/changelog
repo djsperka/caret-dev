@@ -1,9 +1,12 @@
-caret (5.6.6~dfsg.1-1.1) UNRELEASED; urgency=medium
+caret (5.6.6~dfsg.1-1.1ubuntu1) xenial; urgency=medium
 
+  [ Daniel Sperka ]
   * Non-maintainer upload.
   * Clean up references to (unused) vtk4-dependent code. Fix bug in caret.install.
+  * Fix display of cylinder grid. 
+  * Fix update of volume on changing active trajectory.
 
- -- Daniel Sperka <djsperka@ucdavis.edu>  Mon, 06 Feb 2017 06:45:47 -0800
+ -- Daniel J. Sperka <djsperka@ucdavis.edu>  Mon, 05 Feb 2018 15:10:59 -0800
 
 caret (5.6.6~dfsg.1-1) UNRELEASED; urgency=low
 
