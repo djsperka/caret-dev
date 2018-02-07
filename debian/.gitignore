@@ -1,2 +1,6 @@
 /caret.debhelper.log
 /debhelper-build-stamp
+/caret.postinst.debhelper
+/caret.postrm.debhelper
+/caret.substvars
+/files
